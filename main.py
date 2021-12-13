@@ -34,10 +34,10 @@ def main():
     print(cnn)
 
     # Train Model
-    train_model(cnn)
+    # train_model(cnn)
 
     # Run Model
-    # run_model(cnn)
+    run_model(cnn)
 
     # print('5 seconds left')
     # time.sleep(5)
@@ -56,10 +56,7 @@ def run_model(cnn = None):
     # Prediction Loop
     while True:
         prediction_arr = cnn.predict_raw_screenshot(get_frame())
-        if prediction_arr[0]>threshold_confidence:
-            print("Ashe"); print(prediction_arr)
-        elif prediction_arr[1]>threshold_confidence:
-            print("Tracer"); print(prediction_arr)
+        print(prediction_arr)
 
 
 # ==============Train Model==============
