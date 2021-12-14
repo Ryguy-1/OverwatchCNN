@@ -29,8 +29,8 @@ class CNN:
  
         # Shape = (500, 500, 3)
         self.model.add(layers.Conv2D(filters = 64, kernel_size = 17, strides = (3, 3), activation = None, input_shape = self.input_shape))
+        self.model.add(layers.Activation('relu')) # (Swapped Relu to before Batch Norm on All)
         self.model.add(layers.BatchNormalization())
-        self.model.add(layers.Activation('relu'))
         # Shape = (162, 162, 64)
         self.model.add(layers.MaxPool2D(pool_size=(2, 2)))
         # Shape = (81, 81, 64)
@@ -39,8 +39,8 @@ class CNN:
  
         # Shape = (81, 81, 64)
         self.model.add(layers.Conv2D(filters = 96, kernel_size = 9, strides=(3, 3), activation = None))
-        self.model.add(layers.BatchNormalization())
         self.model.add(layers.Activation('relu'))
+        self.model.add(layers.BatchNormalization())
         # Shape = (25, 25, 96)
         # Padding                             (top, bottom), (left, right)
         self.model.add(layers.ZeroPadding2D(padding=((0, 1), (0, 1))))
@@ -50,15 +50,15 @@ class CNN:
         self.model.add(layers.Dropout(0.3))
 
 
+        # Flatten
         self.model.add(layers.Flatten())
  
  
         # Shape = (16_224,)
         self.model.add(layers.Dense(units=1024, activation=None))
-        self.model.add(layers.BatchNormalization())
         self.model.add(layers.Activation('relu'))
+        self.model.add(layers.BatchNormalization())
         self.model.add(layers.Dropout(0.2))
- 
  
         self.model.add(layers.Dense(units=512, activation='relu'))
  

@@ -33,7 +33,7 @@ def main():
     # trainer = GatherData(save_folder='.data2/Hanzo/', resolution=(1920, 1080), max_size=1500)
 
     # Model Initialization
-    cnn = CNN(file_name = 'model_100_epochs_batch_32_learning_rate_0.0001')
+    cnn = CNN(file_name = 'model_relu_batch_norm')
     print(cnn)
 
     # Train Model
