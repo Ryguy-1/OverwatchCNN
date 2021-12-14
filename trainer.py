@@ -28,20 +28,17 @@ class CNN:
  
  
         # Shape = (500, 500, 3)
-        # Conv2D #1
-        self.model.add(layers.Conv2D(filters = 64, kernel_size = 17, strides = (3, 3), activation = None, input_shape = self.input_shape)) # was kernel = 16
+        self.model.add(layers.Conv2D(filters = 64, kernel_size = 17, strides = (3, 3), activation = None, input_shape = self.input_shape))
         self.model.add(layers.BatchNormalization())
         self.model.add(layers.Activation('relu'))
         # Shape = (162, 162, 64)
-        # MaxPool2D #1
         self.model.add(layers.MaxPool2D(pool_size=(2, 2)))
-        # Dropout
+        # Shape = (81, 81, 64)
         self.model.add(layers.Dropout(0.5))  # This does not work if I put it before the max pool...
  
  
         # Shape = (81, 81, 64)
-        # Conv2D #2
-        self.model.add(layers.Conv2D(filters = 96, kernel_size = 9, strides=(3, 3), activation = None)) # was kernel = 32
+        self.model.add(layers.Conv2D(filters = 96, kernel_size = 9, strides=(3, 3), activation = None))
         self.model.add(layers.BatchNormalization())
         self.model.add(layers.Activation('relu'))
         # Shape = (25, 25, 96)
@@ -52,7 +49,7 @@ class CNN:
         # Shape = (13, 13, 96)
         self.model.add(layers.Dropout(0.3))
 
-        # Flatten
+
         self.model.add(layers.Flatten())
  
  
