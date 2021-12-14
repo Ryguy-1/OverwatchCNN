@@ -13,6 +13,7 @@ import tensorflow.keras.utils as utils
 
 class CNN:
  
+    # Peaked at 93% accuracy on 11 classes
  
     # Input Size = (500, 500, 3)
     def __init__(self, input_shape = (500, 500, 1), file_name = 'model'):
@@ -34,6 +35,7 @@ class CNN:
         # Shape = (162, 162, 64)
         # MaxPool2D #1
         self.model.add(layers.MaxPool2D(pool_size=(2, 2)))
+        # Dropout
         self.model.add(layers.Dropout(0.5))  # This does not work if I put it before the max pool...
  
  
@@ -42,22 +44,19 @@ class CNN:
         self.model.add(layers.Conv2D(filters = 96, kernel_size = 9, strides=(3, 3), activation = None)) # was kernel = 32
         self.model.add(layers.BatchNormalization())
         self.model.add(layers.Activation('relu'))
-        self.model.add(layers.Dropout(0.3))
         # Shape = (25, 25, 96)
-        # Skip Pooling Layer
-
+        # Padding                             (top, bottom), (left, right)
+        self.model.add(layers.ZeroPadding2D(padding=((0, 1), (0, 1))))
+        # Shape = (26, 26, 96)
+        self.model.add(layers.MaxPool2D(pool_size = (2, 2)))
+        # Shape = (13, 13, 96)
+        self.model.add(layers.Dropout(0.3))
 
         # Flatten
         self.model.add(layers.Flatten())
  
  
-        # Shape = (60_000,)
-        self.model.add(layers.Dense(units=4096, activation=None))
-        self.model.add(layers.BatchNormalization())
-        self.model.add(layers.Activation('relu'))
-        self.model.add(layers.Dropout(0.2))
- 
- 
+        # Shape = (16_224,)
         self.model.add(layers.Dense(units=1024, activation=None))
         self.model.add(layers.BatchNormalization())
         self.model.add(layers.Activation('relu'))
@@ -66,11 +65,8 @@ class CNN:
  
         self.model.add(layers.Dense(units=512, activation='relu'))
  
- 
-        self.model.add(layers.Dense(units=32, activation='relu'))
- 
- 
         self.model.add(layers.Dense(units=11, activation='softmax'))
+ 
  
  
         # Model Compile
@@ -115,11 +111,10 @@ class CNN:
         # Process Screenshot
         image = self.process_raw_screenshot(image)
         cv2.imshow('image', image)
-        cv2.waitKey(0)
+        cv2.waitKey(1)
         # Format to Array of Proper Dimensions
         image = utils.img_to_array(image)
         image = tf.expand_dims(image, 0) # Create a Batch
-        print(image)
         # Predict
         predictions = self.model.predict(image)
         # Print and Return

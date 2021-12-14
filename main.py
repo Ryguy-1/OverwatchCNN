@@ -1,3 +1,5 @@
+from os import name
+from tensorflow.python.keras.backend import switch
 from trainer import GatherData
 from trainer import CNN
 # Numpy
@@ -20,24 +22,25 @@ np.random.seed = seed
 
 # Print Cuda Enabled or Not
 print(f'CUDA Enabled: {tf.test.is_built_with_cuda}')
+print(f'Version {tf.__version__}')
 
 # Hyperparameters
-batch_size = 32
-epochs = 17
+batch_size = 128
+epochs = 30
 
 def main():
     # Gather Data
     # trainer = GatherData(save_folder='.data2/Hanzo/', resolution=(1920, 1080), max_size=1500)
 
     # Model Initialization
-    cnn = CNN()
+    cnn = CNN(file_name = 'model_30_epochs_batch_128')
     print(cnn)
 
     # Train Model
-    # train_model(cnn)
+    train_model(cnn)
 
     # Run Model
-    run_model(cnn)
+    # run_model(cnn)
 
     # print('5 seconds left')
     # time.sleep(5)
@@ -49,14 +52,39 @@ def main():
     
         
 # ==============Use Model==============
-threshold_confidence = 0.5
+threshold_confidence = 0.8
 def run_model(cnn = None):
     # Load Model
     cnn.load_model()
+    # Prediction Bank
+    prediction_bank_len = 15
+    bank = []
     # Prediction Loop
     while True:
         prediction_arr = cnn.predict_raw_screenshot(get_frame())
-        print(prediction_arr)
+        # Max Index
+        max_index = np.argmax(prediction_arr)
+        # Update Prediction Bank
+        bank.append(max_index)
+        if len(bank) == prediction_bank_len:
+            bank = bank[1:]
+        character_dictionary = {
+            0 : 'Ana',
+            1 : 'Ashe',
+            2 : 'Baptiste',
+            3 : 'Bastion',
+            4 : 'Brigitte',
+            5 : 'Cassidy',
+            6 : 'DVA', # Needed to be changed to DVA
+            7 : 'Doomfist', # Needed to be changed to Doomfist
+            8 : 'Echo',
+            9 : 'Genji',
+            10 : 'Hanzo',
+        }
+        # Print Prediction
+        # Find Most repeated value in bank
+        most_repeated_value = max(set(bank), key=bank.count)
+        print(f'Prediction: {character_dictionary[most_repeated_value]}, Bank: {bank}')
 
 
 # ==============Train Model==============
