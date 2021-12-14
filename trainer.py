@@ -12,8 +12,8 @@ import tensorflow.keras.optimizers as optimizers
 import tensorflow.keras.utils as utils
 
 class CNN:
- 
-    # Peaked at 93% accuracy on 11 classes
+  
+    # Peaked at 94% accuracy on 11 classes
  
     # Input Size = (500, 500, 3)
     def __init__(self, input_shape = (500, 500, 1), file_name = 'model'):
@@ -71,7 +71,7 @@ class CNN:
  
         # Model Compile
         self.loss = losses.CategoricalCrossentropy()
-        self.optimizer = optimizers.Adam(learning_rate=0.0005) # was 0.001
+        self.optimizer = optimizers.Adam(learning_rate=0.0001) # was 0.0005
  
         self.model.compile(
             loss = self.loss,

@@ -25,15 +25,15 @@ print(f'CUDA Enabled: {tf.test.is_built_with_cuda}')
 print(f'Version {tf.__version__}')
 
 # Hyperparameters
-batch_size = 128
-epochs = 30
+batch_size = 32
+epochs = 100
 
 def main():
     # Gather Data
     # trainer = GatherData(save_folder='.data2/Hanzo/', resolution=(1920, 1080), max_size=1500)
 
     # Model Initialization
-    cnn = CNN(file_name = 'model_30_epochs_batch_128')
+    cnn = CNN(file_name = 'model_100_epochs_batch_32_learning_rate_0.0001')
     print(cnn)
 
     # Train Model
