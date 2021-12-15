@@ -12,7 +12,7 @@ import tensorflow.keras.optimizers as optimizers
 import tensorflow.keras.utils as utils
 
 class CNN:
-  
+ 
     # Peaked at 94% accuracy on 11 classes
  
     # Input Size = (500, 500, 3)
@@ -34,7 +34,7 @@ class CNN:
         # Shape = (162, 162, 64)
         self.model.add(layers.MaxPool2D(pool_size=(2, 2)))
         # Shape = (81, 81, 64)
-        self.model.add(layers.Dropout(0.5))  # This does not work if I put it before the max pool...
+        self.model.add(layers.Dropout(0.5))
  
  
         # Shape = (81, 81, 64)
@@ -48,8 +48,8 @@ class CNN:
         self.model.add(layers.MaxPool2D(pool_size = (2, 2)))
         # Shape = (13, 13, 96)
         self.model.add(layers.Dropout(0.3))
-
-
+ 
+ 
         # Flatten
         self.model.add(layers.Flatten())
  
@@ -75,6 +75,7 @@ class CNN:
             optimizer = self.optimizer,
             metrics=['accuracy'],
         )
+
 
 
         # ==============Image Processing==============
